@@ -1,19 +1,7 @@
-const mysql = require('mysql2');
+const mongoose = require('mongoose');
 
+const dbUrl = "mongodb://localhost:27017/cofereservation";
 
-const dbconn = mysql.createConnection({
-    host : 'localhost',
-    user : 'root',
-    database : 'cafereservation',
-}); 
-
-dbconn.connect((err) =>{
-    if (err) {
-        console.log('Error DB is NOT connected :' , err.message);
-        return
-    }
-    console.log('connected to mysql database');
-
-});
-
-module.exports = dbconn;
+mongoose.connect(dbUrl)
+  .then(() => console.log("Server Connected To MongoDB Connected"))
+  .catch((err) => console.log(err))
