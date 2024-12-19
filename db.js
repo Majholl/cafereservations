@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const dbUrl = "mongodb://localhost:27017/cofereservation";
+const dbUrl = "mongodb://127.0.0.1/cofereservation";
 
 mongoose.connect(dbUrl)
   .then(() => console.log("Server Connected To MongoDB Connected"))
