@@ -1,6 +1,7 @@
 // project self files
 const config = require("./config");
 const db = require("./db");
+const cors = require("cors")
 
 // internal moudles
 const express = require("express");
@@ -8,6 +9,9 @@ const path = require("path");
 const categoriesRouter = require("./routes/categories");
 
 const app = express();
+
+// use corse
+app.use(cors())
 
 // Get req.body
 app.use(express.json());
@@ -17,9 +21,10 @@ app.use(express.urlencoded());
 app.use(express.static(path.join(__dirname, "view")));
 
 // Category Routes
-app.use("/api/categories", categoriesRouter);
+app.use("/api/categories", categoriesRouter);  
 
 // Server Listening
 app.listen(config.port, () => {
   console.log("server is running on ");
 });
+
