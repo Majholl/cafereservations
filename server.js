@@ -7,6 +7,7 @@ const cors = require("cors")
 const express = require("express");
 const path = require("path");
 const categoriesRouter = require("./routes/categories");
+const productsRouter = require("./routes/productsRoutes")
 
 const app = express();
 
@@ -22,6 +23,9 @@ app.use(express.static(path.join(__dirname, "view")));
 
 // Category Routes
 app.use("/api/categories", categoriesRouter);  
+
+// Products Routes
+app.use("/api/products" , productsRouter)
 
 // Server Listening
 app.listen(config.port, () => {
