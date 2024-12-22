@@ -10,6 +10,6 @@ productsRouter.get("/" , productsController.getAll);
 // Add
 productsRouter.post("/add" , productsController.add);
 // Remove
-
+productsRouter.delete("/delete", productsController.delete);
 
 module.exports = productsRouter
