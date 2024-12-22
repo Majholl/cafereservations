@@ -45,7 +45,7 @@ app.use((err,req,res,next) => {
     statusCode : err.status || 500,
     message : err.message || "Server Error!"
   })
-})
+});
 
 // Server Listening
 app.listen(config.port, () => {
