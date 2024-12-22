@@ -7,22 +7,33 @@ exports.getAll = async (req, res) => {
 };
 
 exports.add = async (req, res) => {
-    const { title, description, image, capacitty } = req.body;
+  const { title, description, image, capacity, price , category} = req.body;
 
-  if (productsValidator !== true) {
-    res.status(400).json({
-      message: "price is not valid!",
-    });
-  } else {
-    await productsModel.create({
-      title,
-      description,
-      image,
-      capacitty,
-    });
+  const validationResult = productsValidator({
+    title,
+    description,
+    image,
+    capacity,
+    price,
+    category
+  });
 
-    res.status(200).json({
-      message: "Price Added Successfully",
+  if (validationResult !== true) {
+    return res.status(400).json({
+      message: "Products data is not valid!",
     });
   }
+
+  await productsModel.create({
+    title,
+    description,
+    image,
+    capacity,
+    price,
+    category
+  });
+
+  res.status(200).json({
+    message: "Product added successfully!",
+  });
 };

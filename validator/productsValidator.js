@@ -17,8 +17,15 @@ const schema = {
     type: "string",
   },
   price : {
-    type : "string",
+    type : "number",
     min : 2,
+  },
+  capacity : {
+    type : "number"
+  },
+  category : {
+    type : "string",
+    required : true,
   }
 };
 
