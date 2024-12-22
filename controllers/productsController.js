@@ -3,12 +3,19 @@ const productsValidator = require("../validator/productsValidator");
 const mongoose = require("mongoose")
 
 exports.getAll = async (req, res) => {
-  const products = await productsModel.find({}).lean();
-  res.status(202).json(products);
+  try {
+    const products = await productsModel.find({}).lean();
+    res.status(202).json(products);
+  } catch (error) {
+    res.status(500).json({ 
+      message: "An error occurred while fetching products." });
+  }
 };
 
+
 exports.add = async (req, res) => {
-  const { title, description, image, capacity, price , category} = req.body;
+  try {
+    const { title, description, image, capacity, price , category} = req.body;
 
   const validationResult = productsValidator({
     title,
@@ -37,9 +44,12 @@ exports.add = async (req, res) => {
   res.status(200).json({
     message: "Product added successfully!",
   });
+  } catch {
+    res.status(500).json({
+      message : "Error in add products"
+    })
+  }
 };
-
-
 
 // Controller function to delete a product by its ID
 exports.delete = async (req, res) => {
