@@ -2,6 +2,7 @@ const productsModel = require("../models/products");
 const productsValidator = require("../validator/productsValidator");
 const mongoose = require("mongoose")
 
+
 exports.getAll = async (req, res) => {
   try {
     const products = await productsModel.find({}).lean();
@@ -11,6 +12,33 @@ exports.getAll = async (req, res) => {
       message: "An error occurred while fetching products." });
   }
 };
+
+
+
+exports.getOne = async (req , res)=>{
+  try {
+      const {title} = req.params ;
+      const product = await productsModel.findOne({title : title}).lean();
+      console.log(product)
+      if (!product){
+        return res.status(404).json({message:"product is not found"})
+      }
+        
+      res.status(200).json(product)
+     
+      
+
+    }catch (error){
+      res.status(500).json({message : "An error occurred while fetching products."})
+    };
+
+}
+    
+    
+
+
+
+
 
 
 exports.add = async (req, res) => {
@@ -50,6 +78,9 @@ exports.add = async (req, res) => {
     })
   }
 };
+
+
+
 
 // Controller function to delete a product by its ID
 exports.delete = async (req, res) => {

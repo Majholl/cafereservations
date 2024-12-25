@@ -6,6 +6,8 @@ const productsRouter = express.Router();
 // Get All
 productsRouter.get("/" , productsController.getAll);
 // Get One
+productsRouter.get('/:title?' , productsController.getOne)
+
 
 // Add
 productsRouter.post("/add" , productsController.add);
