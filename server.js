@@ -1,54 +1,14 @@
-// project self files
-const config = require("./config");
-const db = require("./db");
-const cors = require("cors")
+const app = require("./app");
+const mongoose = require("mongoose");
+require("dotenv").config();
 
-// internal moudles
-const express = require("express");
-const path = require("path");
-const categoriesRouter = require("./routes/categories");
-const productsRouter = require("./routes/productsRoutes");
-const { error } = require("console");
-const { type } = require("os");
+const port = process.env.PORT;
 
-const app = express();
+(async () => {
+  await mongoose.connect(process.env.DB_URI);
+  console.log("MongoDB Connected");
+})();
 
-// use corse
-app.use(cors())
-
-// Get req.body
-app.use(express.json());
-app.use(express.urlencoded());
-
-// Access Public
-app.use(express.static(path.join(__dirname, "view")));
-
-// Category Routes
-app.use("/api/categories", categoriesRouter);  
-
-// Products Routes
-app.use("/api/products" , productsRouter);
-
-// Not Fond page
-app.use((req,res) => {
-  return res.status(404).json({
-    error : {
-      type : "not found",
-      message : "page Not Foun!"
-    }
-  })
+app.listen(port, () => {
+  console.log(`Server Listening on Port ${port}...`);
 });
-
-// Error Handling
-app.use((err,req,res,next) => {
-  res.json({
-    statusCode : err.status || 500,
-    message : err.message || "Server Error!"
-  })
-});
-
-// Server Listening
-app.listen(config.port, () => {
-  console.log("server is running on ");
-});
-

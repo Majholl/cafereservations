@@ -1,15 +1,17 @@
 {
   "dependencies": {
     "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
     "ejs": "^3.1.10",
     "express": "^4.21.2",
     "fastest-validator": "^1.19.0",
     "mongoose": "^8.9.2",
     "mysql2": "^3.11.5",
+    "nodemon": "^3.1.9",
     "path": "^0.12.7"
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "nodemon server.js"
   },
   "name": "cafereservations",
   "version": "1.0.0",
