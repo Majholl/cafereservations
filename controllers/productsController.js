@@ -33,7 +33,6 @@ exports.add = async (req, res) => {
   try {
     const { title, description, image, capacity, price, category } = req.body;
 
-    // اعتبارسنجی ورودی‌ها
     const validationResult = productsValidator({
       title,
       description,
@@ -43,14 +42,12 @@ exports.add = async (req, res) => {
       category,
     });
 
-    // در صورتی که اعتبارسنجی معتبر نباشد
     if (validationResult !== true) {
       return res.status(400).json({
         message: "Products data is not valid!",
       });
     }
 
-    // افزودن محصول جدید به پایگاه داده
     await productsModel.create({
       title,
       description,
@@ -60,16 +57,14 @@ exports.add = async (req, res) => {
       category,
     });
 
-    // ارسال پیام موفقیت‌آمیز
     res.status(200).json({
       message: "Product added successfully!",
     });
   } catch (error) {
-    // مدیریت خطا و چاپ جزئیات آن
-    console.error("Error:", error); // چاپ جزئیات خطا به کنسول
+    console.error("Error:", error);
     res.status(500).json({
       message: "Error in add products",
-      error: error.message, // ارسال پیام خطای دقیق
+      error: error.message,
     });
   }
 };
