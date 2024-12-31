@@ -1,5 +1,6 @@
 const productsModel = require("../models/products");
 const productsValidator = require("../validator/productsValidator");
+const {isValidObjectId} = require("mongoose")
 const mongoose = require("mongoose");
 
 exports.getAll = async (req, res) => {
@@ -103,4 +104,35 @@ exports.delete = async (req, res) => {
       error: error.message,
     });
   }
+};
+
+exports.update = async (req, res) => {
+  const { id } = req.params;
+  const { title, description, price, image, capacity, category } = req.body;
+
+  if (!isValidObjectId(id)) {
+   return res.status(400).json({
+      message : "ProductID is not valid"
+    })
+  }
+
+  const updateProduct = await productsModel.findOneAndUpdate({_id : id} , {
+    title,
+    description,
+    price,
+    image,
+    capacity,
+    category
+  });
+
+  if (!updateProduct) {
+    return res.status(404).json({
+      message : "Product not found !!"
+    });
+  }
+
+  return res.status(200).json({
+    message : "Product updated successfully",
+    updateProduct
+  })
 };
