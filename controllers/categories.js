@@ -1,5 +1,6 @@
 const categoriesModel = require("../models/categories");
 const categoryValidation = require("../validator/categoryValidator");
+const productsModel = require("../models/products");
 const { isValidObjectId } = require("mongoose");
 
 exports.getCategory = async (req, res) => {
@@ -115,4 +116,22 @@ exports.updateCategory = async (req, res) => {
   } catch (error) {
     res.status(500).json(error);
   }
+};
+
+exports.getProductsByCategory = async (req, res) => {
+  const category = await categoriesModel.findOne({ title: req.params.title });
+
+  if (!category) {
+    return res.status(404).json({
+      message: "Category not found !!",
+    });
+  }
+
+  const products = await productsModel.find({ category: category.title });
+
+  if (!products) {
+    res.json([]);
+  }
+
+  return res.json(products);
 };

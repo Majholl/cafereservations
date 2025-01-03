@@ -10,6 +10,9 @@ categoriesRouter.get("/:title?" , categoriesController.getCategory);
 categoriesRouter.post("/add" , categoriesController.addCategory)
 
 // Remove Category
-categoriesRouter.route("/:id").delete(categoriesController.removeCategory).put(categoriesController.updateCategory)
+categoriesRouter.route("/:id").delete(categoriesController.removeCategory).put(categoriesController.updateCategory);
+
+// Get Products By Category
+categoriesRouter.get("/:title/products" , categoriesController.getProductsByCategory);
 
 module.exports = categoriesRouter
