@@ -29,27 +29,27 @@ exports.getCategory = async (req, res) => {
   }
 };
 
+
 exports.addCategory = async (req, res) => {
   try {
-    const validationResult = categoryValidation(req.body);
+    const validationResult = req.body
+    const { title, description } = req.body;
 
-    const { title, description, image } = req.body;
-
-    if (validationResult !== true) {
-      return res.status(422).json({
-        message: "Data is not valid",
-      });
-    } else {
-      await categoriesModel.create({
-        title,
-        description,
-        image,
-      });
-
-      res.status(201).json({
-        message: "Category Added Successfully",
-      });
+    if (!validationResult) {
+      res.status.json({
+        message : "Data is not valid"
+      })
     }
+
+    await categoriesModel.create({
+      title,
+      description,
+      image: req.file.filename,
+    });
+
+    res.status(201).json({
+      message: "Category Added Successfully",
+    });
   } catch (error) {
     res.status(500).json({
       message: "Error in add category",

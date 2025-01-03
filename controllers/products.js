@@ -1,6 +1,6 @@
 const productsModel = require("../models/products");
 const productsValidator = require("../validator/productsValidator");
-const {isValidObjectId} = require("mongoose")
+const { isValidObjectId } = require("mongoose");
 const mongoose = require("mongoose");
 
 exports.getAll = async (req, res) => {
@@ -32,27 +32,12 @@ exports.getOne = async (req, res) => {
 
 exports.add = async (req, res) => {
   try {
-    const { title, description, image, capacity, price, category } = req.body;
-
-    const validationResult = productsValidator({
-      title,
-      description,
-      image,
-      capacity,
-      price,
-      category,
-    });
-
-    if (validationResult !== true) {
-      return res.status(400).json({
-        message: "Products data is not valid!",
-      });
-    }
+    const { title, description, capacity, price, category } = req.body;
 
     await productsModel.create({
       title,
       description,
-      image,
+      image: req.file.filename,
       capacity,
       price,
       category,
@@ -111,28 +96,31 @@ exports.update = async (req, res) => {
   const { title, description, price, image, capacity, category } = req.body;
 
   if (!isValidObjectId(id)) {
-   return res.status(400).json({
-      message : "ProductID is not valid"
-    })
+    return res.status(400).json({
+      message: "ProductID is not valid",
+    });
   }
 
-  const updateProduct = await productsModel.findOneAndUpdate({_id : id} , {
-    title,
-    description,
-    price,
-    image,
-    capacity,
-    category
-  });
+  const updateProduct = await productsModel.findOneAndUpdate(
+    { _id: id },
+    {
+      title,
+      description,
+      price,
+      image,
+      capacity,
+      category,
+    }
+  );
 
   if (!updateProduct) {
     return res.status(404).json({
-      message : "Product not found !!"
+      message: "Product not found !!",
     });
   }
 
   return res.status(200).json({
-    message : "Product updated successfully",
-    updateProduct
-  })
+    message: "Product updated successfully",
+    updateProduct,
+  });
 };
